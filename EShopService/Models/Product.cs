@@ -1,6 +1,6 @@
 ﻿namespace EShopService.Models;
 
-public class Product
+public class Product : BaseModel
 {
     public int Id { get; set; }
 
@@ -13,15 +13,5 @@ public class Product
     public string Sku { get; set; } = default!;
 
     public Category Category { get; set; } = default!;
-
-    public bool Deleted { get; set; } = false;
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    public Guid CreatedBy { get; set; }
-
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
-    public Guid UpdatedBy { get; set; }
 
 }
