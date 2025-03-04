@@ -10,9 +10,9 @@ public class Product
 
     public decimal Price { get; set; }
 
-    public string Sku { get; set; } = default;
+    public string Sku { get; set; } = default!;
 
-    public Category Category { get; set; }
+    public Category Category { get; set; } = default!;
 
     public bool Deleted { get; set; } = false;
 
