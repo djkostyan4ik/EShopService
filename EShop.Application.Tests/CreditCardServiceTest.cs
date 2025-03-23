@@ -29,7 +29,7 @@ public class CreditCardServiceTest
     [InlineData("3497 7965 8312 79729876")]
     [InlineData("345-470")]
     [InlineData("378523393817")]
-    [InlineData("44-  0071-6540-17780 98898432 3242")]
+    [InlineData("44-  0071-6540-17780 98898432 32742")]
     [InlineData("")]
 
     public void ValidateCard_CorrectLength_ExpectedFalse(string Number)
