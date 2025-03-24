@@ -5,7 +5,7 @@ namespace EShop.Application.Tests;
 
 public class CreditCardServiceTest
 {
-    // should accept a text type of 13-19 characters including dashes/spaces between and consistent with the Luhn algorithm
+    // should accept a text type of 13-19 characters including dashes/spaces between and consistent with the Luhn algorithm 
 
     [Theory]
     [InlineData("3497 7965 8312 797")]
