@@ -23,11 +23,11 @@ public class CreditCardController : ControllerBase
         }
         catch (CardNumberTooShortException)
         {
-            return StatusCode(400);
+            return StatusCode(400, new { Error = "Card number is too short. Minimum length is 13 digits." });
         }
         catch (CardNumberInvalidException)
         {
-            return StatusCode(400);
+            return StatusCode(400, new { Error = "Card number is invalid. It does not pass the Luhn algorithm check."});
         }
 
         CreditCardProvider? provider = creditCardService.GetCardType(cardNumber);
@@ -35,7 +35,7 @@ public class CreditCardController : ControllerBase
         {
             return StatusCode(406);
         }
-        return Ok(new { Status = "Valid", Provider = provider.Value });
+        return Ok(new { Status = "Valid", Provider = provider.Value.ToString() });
 
     }
 }
