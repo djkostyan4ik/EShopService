@@ -80,7 +80,7 @@ public class CreditCardServiceTest
     public void GetCardType_CorrectBankName_ExpectedTrue(string cardNumber, CreditCardProvider? expected)
     {
         var creditCardService = new CreditCardService();
-        CreditCardProvider? result = creditCardService.GetCardType(cardNumber);
+        CreditCardProvider? result = creditCardService.GetCardProvider(cardNumber);
 
         Assert.Equal(expected, result);
 
@@ -92,7 +92,7 @@ public class CreditCardServiceTest
     public void GetCardType_ShouldReturnCorrectCardType_unknow(string cardNumber, string expected)
     {
         var creditCardService = new CreditCardService();
-        CreditCardProvider? result = creditCardService.GetCardType(cardNumber);
+        CreditCardProvider? result = creditCardService.GetCardProvider(cardNumber);
         Assert.Null(result);
     }
 

@@ -9,13 +9,21 @@ namespace EShopService.Controllers;
 [ApiController]
 public class CreditCardController : ControllerBase
 {
+
+    private readonly ICreditCardService _creditCardService;
+
+    public CreditCardController(ICreditCardService creditCardService)
+    {
+        _creditCardService = creditCardService;
+    }
+
     [HttpGet("{cardNumber}")]
     public IActionResult ValidateCard(string cardNumber)
     {
-        var creditCardService = new CreditCardService();
+        
         try
         {
-            creditCardService.ValidateCard(cardNumber);
+            _creditCardService.ValidateCard(cardNumber);
         }
         catch (CardNumberTooLongException)
         {
@@ -30,7 +38,7 @@ public class CreditCardController : ControllerBase
             return StatusCode(400, new { Error = "Card number is invalid. It does not pass the Luhn algorithm check."});
         }
 
-        CreditCardProvider? provider = creditCardService.GetCardType(cardNumber);
+        CreditCardProvider? provider = _creditCardService.GetCardProvider(cardNumber);
         if(provider == null)
         {
             return StatusCode(406);

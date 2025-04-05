@@ -35,6 +35,6 @@ public class CreditCardProviderTests
     {
         var creditCardService = new CreditCardService();
         string cardNumber = "4111111111111111";
-        Assert.Equal(CreditCardProvider.Visa, creditCardService.GetCardType(cardNumber));
+        Assert.Equal(CreditCardProvider.Visa, creditCardService.GetCardProvider(cardNumber));
     }
 }

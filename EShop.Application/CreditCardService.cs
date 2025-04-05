@@ -4,7 +4,7 @@ using EShop.Domain.Enums;
 
 namespace EShop.Application;
 
-public class CreditCardService
+public class CreditCardService : ICreditCardService
 {
     public void ValidateCard(string cardNumber)
     {
@@ -49,7 +49,7 @@ public class CreditCardService
     
     }
 
-    public CreditCardProvider? GetCardType(string cardNumber)
+    public CreditCardProvider? GetCardProvider(string cardNumber)
     {
         cardNumber = cardNumber.Replace(" ", "").Replace("-", "");
 
