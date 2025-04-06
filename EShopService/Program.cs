@@ -1,4 +1,6 @@
 using EShop.Application;
+using EShop.Domain;
+using EShop.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICreditCardService, CreditCardService>();
+builder.Services.AddSingleton<IProductRepository, Repository>();
+builder.Services.AddSingleton<ProductService>();
 
 var app = builder.Build();
 

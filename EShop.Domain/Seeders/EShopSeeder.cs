@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Domain.Seeders;
 
-internal static class EShopSeeder
+public static class EShopSeeder
 {
     public static List<Product> GetInitialProducts()
     {
-        return new List<Product>
+        var products = new List<Product>
         {
             new Product 
             { 
@@ -37,5 +37,6 @@ internal static class EShopSeeder
                 Sku = "SKU03",
             }
         };
+        return products;
     }
 }
