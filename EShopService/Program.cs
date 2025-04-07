@@ -1,6 +1,5 @@
 using EShop.Application;
 using EShop.Domain;
-using EShop.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

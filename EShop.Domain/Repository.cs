@@ -2,7 +2,7 @@
 using EShop.Domain.Seeders;
 using Microsoft.EntityFrameworkCore;
 
-namespace EShop.Domain.Repositories
+namespace EShop.Domain
 {
 
     public class Repository : IProductRepository

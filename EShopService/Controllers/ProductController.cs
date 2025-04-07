@@ -46,11 +46,19 @@ public class ProductController : ControllerBase
         return NoContent();
     }
 
-    // DELETE api/<ProductController>/5
+    // DELETE api/<ProductController>
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
         _service.DeleteProduct(id);
         return NoContent();
+    }
+
+    // EXISTS api/<ProductController>
+    [HttpGet("exists/{id}")]
+    public ActionResult<bool> Exists(int id)
+    {
+        var exists = _service.GetById(id) != null;
+        return Ok(exists);
     }
 }

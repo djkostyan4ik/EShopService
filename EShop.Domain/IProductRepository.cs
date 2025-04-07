@@ -1,6 +1,6 @@
 ﻿using EShop.Domain.Models;
 
-namespace EShop.Domain.Repositories;
+namespace EShop.Domain;
 
 public interface IProductRepository
 {

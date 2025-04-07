@@ -1,5 +1,4 @@
 ﻿using EShop.Domain.Models;
-using EShop.Domain.Repositories;
 
 namespace EShop.Domain;
 
@@ -40,5 +39,10 @@ public class ProductService
         if (!_repository.Exists(id)) throw new InvalidOperationException("Produkt o tym ID nie istnieje.");
 
         _repository.Delete(id);
+    }
+
+    public bool Exists(int id)
+    {
+        return _repository.Exists(id);
     }
 }
