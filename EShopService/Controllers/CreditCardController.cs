@@ -1,7 +1,7 @@
-﻿using EShop.Application;
-using EShop.Domain.Enums;
-using EShop.Domain.Exceptions;
+﻿using EShop.Application.Service;
+using EShop.Domain.Exceptions.CreditCard;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EShopService.Controllers;
 
@@ -10,40 +10,34 @@ namespace EShopService.Controllers;
 public class CreditCardController : ControllerBase
 {
 
-    private readonly ICreditCardService _creditCardService;
+    protected ICreditCardService _creditCardService;
 
     public CreditCardController(ICreditCardService creditCardService)
     {
         _creditCardService = creditCardService;
     }
 
-    [HttpGet("{cardNumber}")]
-    public IActionResult ValidateCard(string cardNumber)
+    [HttpGet]
+    public IActionResult Get(string cardNumber)
     {
-        
+
         try
         {
-            _creditCardService.ValidateCard(cardNumber);
-        }
-        catch (CardNumberTooLongException)
-        {
-            return StatusCode(414);
-        }
-        catch (CardNumberTooShortException)
-        {
-            return StatusCode(400, new { Error = "Card number is too short. Minimum length is 13 digits." });
-        }
-        catch (CardNumberInvalidException)
-        {
-            return StatusCode(400, new { Error = "Card number is invalid. It does not pass the Luhn algorithm check."});
-        }
+            _creditCardService.ValidateCardNumber(cardNumber);
+            return Ok(new { cardProvider = _creditCardService.GetCardType(cardNumber) });
 
-        CreditCardProvider? provider = _creditCardService.GetCardProvider(cardNumber);
-        if(provider == null)
-        {
-            return StatusCode(406);
         }
-        return Ok(new { Status = "Valid", Provider = provider.Value.ToString() });
-
+        catch (CardNumberTooLongException ex)
+        {
+            return StatusCode((int)HttpStatusCode.RequestUriTooLong, new { error = ex.Message, code = (int)HttpStatusCode.RequestUriTooLong });
+        }
+        catch (CardNumberTooShortException ex)
+        {
+            return BadRequest(new { error = ex.Message, code = (int)HttpStatusCode.BadRequest });
+        }
+        catch (CardNumberInvalidException ex)
+        {
+            return BadRequest(new { error = ex.Message, code = (int)HttpStatusCode.BadRequest });
+        }
     }
 }

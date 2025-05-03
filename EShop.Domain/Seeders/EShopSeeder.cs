@@ -1,42 +1,24 @@
 ﻿using EShop.Domain.Models;
+using EShop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Domain.Seeders;
 
-public static class EShopSeeder
+public class EShopSeeder(DataContext context) : IEShopSeeder
 {
-    public static List<Product> GetInitialProducts()
+    public async Task Seed()
     {
-        var products = new List<Product>
+        if (!context.Products.Any())
         {
-            new Product 
-            { 
-                Id = 1,
-                Name = "Coffee",
-                Ean = "123321423423",
-                Price = 25.99m,
-                Stock = 100,
-                Sku = "SKU01", 
-            },
-            new Product 
-            { 
-                Id = 2,
-                Name = "Green Tea with lemon",
-                Ean = "1234567890123",
-                Price = 14.99m,
-                Stock = 150,
-                Sku = "SKU02",
-            },
-            new Product 
-            {
-                Id = 3,
-                Name = "Cocoa",
-                Ean = "3445679810234",
-                Price = 16.99m,
-                Stock = 100,
-                Sku = "SKU03",
-            }
-        };
-        return products;
+            var students = new List<Product>
+                 {
+                     new Product { Name = "Cobi", Ean = "1234" },
+                     new Product { Name = "Duplo", Ean = "431" },
+                     new Product { Name = "Lego", Ean = "12212" }
+                 };
+
+            context.Products.AddRange(students);
+            context.SaveChanges();
+        }
     }
 }

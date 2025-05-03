@@ -1,4 +1,5 @@
-﻿using EShop.Domain;
+﻿using EShop.Application.Service;
+using EShop.Domain;
 using EShop.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,58 +8,63 @@ namespace EShopService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-
 public class ProductController : ControllerBase
 {
+    private IProductService _productService;
 
-    private readonly ProductService _service;
-
-    public ProductController(ProductService service)
+    public ProductController(IProductService productService)
     {
-        _service = service;
+        _productService = productService;
     }
 
+    // GET: api/<ProductController>
     [HttpGet]
-    public IActionResult GetAll() => Ok(_service.GetAll());
-
-    // GET api/<ProductController>
-    [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public async Task<ActionResult> Get()
     {
-        var product = _service.GetById(id);
-        if (product == null) return NotFound();
-        return Ok(product);
+        var result = await _productService.GetAllAsync();
+
+        return Ok(result);
     }
+
+    // GET api/<ProductController>/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult> Get(int id)
+    {
+        var result = await _productService.GetAsync(id);
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
     // POST api/<ProductController>
     [HttpPost]
-    public IActionResult Post([FromBody] Product product)
+    public async Task<ActionResult> Post([FromBody]Product product)
     {
-        _service.AddProduct(product);
-        return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
+        var result = await _productService.Add(product);
+
+        return Ok(result);
     }
 
-    // PUT api/<ProductController>
+    // PUT api/<ProductController>/5
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] Product product)
+    public async Task<ActionResult> Put(int id, [FromBody]Product product)
     {
-        if (id != product.Id) return BadRequest();
-        _service.UpdateProduct(product);
-        return NoContent();
+        var result = await _productService.Update(product);
+
+        return Ok(result);
     }
 
-    // DELETE api/<ProductController>
+    // DELETE api/<ProductController>/5
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        _service.DeleteProduct(id);
-        return NoContent();
-    }
+        var product = await _productService.GetAsync(id);
+        product.Deleted = true;
+        var result = await _productService.Update(product);
 
-    // EXISTS api/<ProductController>
-    [HttpGet("exists/{id}")]
-    public ActionResult<bool> Exists(int id)
-    {
-        var exists = _service.GetById(id) != null;
-        return Ok(exists);
+        return Ok(result);
     }
 }
