@@ -26,7 +26,7 @@ public class ProductControllerTest
         _mockService.Setup(s => s.GetAllAsync()).ReturnsAsync(products);
 
         // Act
-        var result = _controller.Get();
+        var result = await _controller.Get();
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
@@ -41,7 +41,7 @@ public class ProductControllerTest
         _mockService.Setup(s => s.GetAsync(1)).ReturnsAsync(product);
 
         // Act
-        var result = _controller.Get(1);
+        var result = await _controller.Get(1);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
