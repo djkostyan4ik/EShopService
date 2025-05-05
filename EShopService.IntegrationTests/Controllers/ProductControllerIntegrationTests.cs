@@ -97,5 +97,36 @@ public class ProductControllerIntegrationTests : IClassFixture<WebApplicationFac
         var products = await response.Content.ReadFromJsonAsync<List<Product>>();
         Assert.Equal(10000, products?.Count);
     }
+
+    [Fact]
+    public async Task Post_AddThousandsProducts_ExceptedThousandsProducts()
+    {
+        // Arrange
+        using (var scope = _factory.Services.CreateScope())
+        {
+            // Pobranie kontekstu bazy danych
+            var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+            dbContext.Products.RemoveRange(dbContext.Products);
+
+            for (int i = 0; i < 10000; i++)
+            {
+                dbContext.Products.AddRange(
+                    new Product { Name = "Products" + i } 
+                );
+
+                // Zapisanie obiektu
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        // Act
+        var responce = await _client.GetAsync("/api/product");
+
+        // Assert
+        responce.EnsureSuccessStatusCode();
+        var products = await responce.Content.ReadFromJsonAsync<List<Product>>();
+        Assert.Equal(10000, products?.Count);
+    }
 }
 
