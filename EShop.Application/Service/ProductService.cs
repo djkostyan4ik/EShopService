@@ -33,4 +33,10 @@ public class ProductService : IProductService
         var result = await _repository.AddProductAsync(product);
         return result;
     }
+
+    public Product Add(Product product)
+    {
+        var result = _repository.AddProductAsync(product).Result;
+        return result;
+    }
 }
