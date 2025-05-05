@@ -22,13 +22,13 @@ public class ProductService : IProductService
         return result;
     }
 
-    public async Task<Product> Update(Product product)
+    public async Task<Product> UpdateAsync(Product product)
     {
         var result = await _repository.UpdateProductAsync(product);
         return result;
     }
 
-    public async Task<Product> Add(Product product)
+    public async Task<Product> AddAsync(Product product)
     {
         var result = await _repository.AddProductAsync(product);
         return result;
